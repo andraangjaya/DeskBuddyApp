@@ -45,10 +45,7 @@ public class StudentResource {
         }
     }
 
-    @DeleteMapping("/api/student/{id}")
-    public void deleteStudent(@PathVariable Long id) {
-        studentRepository.deleteById(id);
-    }
+
 
 
 

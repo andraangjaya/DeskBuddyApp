@@ -2,6 +2,8 @@ package com.demo.deskbuddy.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -16,7 +18,8 @@ public class Student {
     @Column(name = "nik", unique = true, nullable = false)
     private Long nik;
 
-    @Column(name = "first_name")
+    @NotBlank
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "last_name")

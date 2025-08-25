@@ -1,20 +1,26 @@
 package com.demo.deskbuddy.dto;
 
 import com.demo.deskbuddy.domain.Status;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 
 public class SessionHistoryDTO {
+    @NotNull
     private Long nik;
 
+    @NotNull
     private Integer session;
 
+    @NotNull
     private Instant timeStarted;
 
+    @NotNull
     private Instant timeFinished;
 
     private Integer totalDistraction;
 
+    @NotNull
     private Status status;
 
     public Long getNik() {

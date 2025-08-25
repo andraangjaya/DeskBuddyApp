@@ -2,6 +2,7 @@ package com.demo.deskbuddy.rest;
 
 import com.demo.deskbuddy.domain.Student;
 import com.demo.deskbuddy.repository.StudentRepository;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class StudentResource {
     }
 
     @PostMapping("/api/students")
-    public Student createStudent(@RequestBody Student student) {
+    public Student createStudent(@Valid @RequestBody Student student) {
         return studentRepository.save(student);
     }
 

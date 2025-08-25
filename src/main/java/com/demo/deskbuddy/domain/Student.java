@@ -9,9 +9,12 @@ import jakarta.persistence.*;
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "sequenceGenerator", allocationSize = 1)
     @Column(name = "id")
-    private long id;
+    private Long id;
+
+    @Column(name = "nik", unique = true, nullable = false)
+    private Long nik;
 
     @Column(name = "first_name")
     private String firstName;
@@ -19,12 +22,20 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getNik() {
+        return nik;
+    }
+
+    public void setNik(Long nik) {
+        this.nik = nik;
     }
 
     public String getFirstName() {

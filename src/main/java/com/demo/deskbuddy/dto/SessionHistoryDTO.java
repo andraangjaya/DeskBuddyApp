@@ -1,52 +1,28 @@
-package com.demo.deskbuddy.domain;
+package com.demo.deskbuddy.dto;
 
-import jakarta.persistence.*;
+import com.demo.deskbuddy.domain.Status;
 
 import java.time.Instant;
 
-@Entity
-@Table(name = "session_history")
-public class SessionHistory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator", sequenceName = "sequenceGenerator", allocationSize = 1)
-    @Column(name = "session_id")
-    private Long sessionId;
+public class SessionHistoryDTO {
+    private Long nik;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
-
-    @Column(name = "session")
     private Integer session;
 
-    @Column(name = "time_started")
     private Instant timeStarted;
 
-    @Column(name = "time_finished")
     private Instant timeFinished;
 
-    @Column(name = "total_distraction")
     private Integer totalDistraction;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
     private Status status;
 
-    public Long getSessionId() {
-        return sessionId;
+    public Long getNik() {
+        return nik;
     }
 
-    public void setSessionId(Long sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setNik(Long nik) {
+        this.nik = nik;
     }
 
     public Integer getSession() {

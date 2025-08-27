@@ -1,6 +1,7 @@
 package com.demo.deskbuddy.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 
@@ -10,17 +11,22 @@ public class SessionHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator", sequenceName = "sequenceGenerator", allocationSize = 1)
-    @Column(name = "session_id")
-    private Long sessionId;
+    @Column(name = "id")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
-    @Column(name = "session")
+    @NotNull
+    @Column(name = "session", nullable = false)
     private Integer session;
 
-    @Column(name = "time_started")
+    @NotNull
+    @Column(name = "session_date",  nullable = false)
+    private Instant sessionDate;
+
+    @Column(name = "time_started", nullable = false)
     private Instant timeStarted;
 
     @Column(name = "time_finished")
@@ -30,15 +36,15 @@ public class SessionHistory {
     private Integer totalDistraction;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Status status;
 
-    public Long getSessionId() {
-        return sessionId;
+    public Long getId() {
+        return id;
     }
 
-    public void setSessionId(Long sessionId) {
-        this.sessionId = sessionId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Student getStudent() {
@@ -55,6 +61,14 @@ public class SessionHistory {
 
     public void setSession(Integer session) {
         this.session = session;
+    }
+
+    public @NotNull Instant getSessionDate() {
+        return sessionDate;
+    }
+
+    public void setSessionDate(@NotNull Instant sessionDate) {
+        this.sessionDate = sessionDate;
     }
 
     public Instant getTimeStarted() {

@@ -1,12 +1,17 @@
 package com.demo.deskbuddy.service;
 
 import com.demo.deskbuddy.domain.SessionHistory;
+import com.demo.deskbuddy.domain.Status;
 import com.demo.deskbuddy.domain.Student;
 import com.demo.deskbuddy.dto.SessionHistoryDTO;
+import com.demo.deskbuddy.dto.SessionHistoryNikDTO;
 import com.demo.deskbuddy.repository.SessionHistoryRepository;
 import com.demo.deskbuddy.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.Optional;
 
 @Service
@@ -19,14 +24,13 @@ public class SessionHistoryService {
         this.studentRepository = studentRepository;
     }
 
-
-
     public SessionHistory createSession(SessionHistoryDTO sessionHistoryDTO){
         Optional<Student> optStudent = studentRepository.findByNik(sessionHistoryDTO.getNik());
         if(optStudent.isPresent()){
             Student student = optStudent.get();
             SessionHistory sessionHistory = new SessionHistory();
             sessionHistory.setStudent(student);
+            sessionHistory.setSession(sessionHistoryDTO.getSession());
             sessionHistory.setTimeStarted(sessionHistoryDTO.getTimeStarted());
             sessionHistory.setTimeFinished(sessionHistoryDTO.getTimeFinished());
             sessionHistory.setTotalDistraction(sessionHistoryDTO.getTotalDistraction());
@@ -37,4 +41,49 @@ public class SessionHistoryService {
             return null;
         }
     }
+
+    public void startSession(SessionHistoryNikDTO sessionHistoryNikDTO){
+        Optional<Student> optStudent = studentRepository.findByNik(sessionHistoryNikDTO.getNik());
+        if(optStudent.isPresent()){
+            Instant today = Instant.now();
+            ZonedDateTime zdt = today.atZone(ZoneId.of("UTC"));
+            LocalDate date = LocalDate.of(zdt.getYear(), zdt.getMonth(), zdt.getDayOfMonth());
+
+            // Start of the day (00:00:00)
+            Instant startOfDay = date.atStartOfDay().toInstant(ZoneOffset.UTC);
+
+            Student student = optStudent.get();
+            SessionHistory sessionHistory = new SessionHistory();
+            sessionHistory.setStudent(student);
+            sessionHistory.setSessionDate(startOfDay);
+            sessionHistory.setSession(sessionHistoryNikDTO.getSession());
+            sessionHistory.setTimeStarted(today);
+            sessionHistory.setStatus(Status.IN_PROGRESS);
+            sessionHistory = sessionHistoryRepository.save(sessionHistory);
+        }
+    }
+
+    public void finish(SessionHistoryNikDTO sessionHistoryNikDTO){
+        Optional<Student> optStudent = studentRepository.findByNik(sessionHistoryNikDTO.getNik());
+        if(optStudent.isPresent()){
+            Student student = optStudent.get();
+            Instant today = Instant.now();
+            ZonedDateTime zdt = today.atZone(ZoneId.of("UTC"));
+            LocalDate date = LocalDate.of(zdt.getYear(), zdt.getMonth(), zdt.getDayOfMonth());
+
+            // Start of the day (00:00:00)
+            Instant startOfDay = date.atStartOfDay().toInstant(ZoneOffset.UTC);
+
+            // End of the day (23:59:59.999)
+            Instant endOfDay = date.atTime(23, 59, 59, 999_000_000).toInstant(ZoneOffset.UTC);
+            Optional<SessionHistory> optSession = sessionHistoryRepository.findByStudentIdAndSessionAndSessionDateBetween(student.getId(), sessionHistoryNikDTO.getSession(), startOfDay, endOfDay);
+            if(optSession.isPresent()){
+                SessionHistory sessionHistory = optSession.get();
+                sessionHistory.setTimeFinished(Instant.now());
+                sessionHistory.setStatus(Status.DONE);
+                sessionHistory = sessionHistoryRepository.save(sessionHistory);
+            }
+        }
+    }
+
 }

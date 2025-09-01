@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface SessionHistoryRepository extends JpaRepository<SessionHistory, Long> {
     Optional<SessionHistory> findByStudentIdAndSession(Long student_id, Integer session);
     Optional<SessionHistory> findByStudentIdAndSessionAndSessionDateBetween(Long student_id, Integer session, Instant start, Instant end);
+    Optional<SessionHistory> findByStudentIdAndTimeStartedIsNotNullAndTimeFinishedIsNull(Long student_id);
 
 }

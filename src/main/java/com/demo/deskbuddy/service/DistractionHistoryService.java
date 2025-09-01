@@ -4,6 +4,7 @@ import com.demo.deskbuddy.domain.DistractionHistory;
 import com.demo.deskbuddy.domain.SessionHistory;
 import com.demo.deskbuddy.domain.Student;
 import com.demo.deskbuddy.dto.DistractionRequestDTO;
+import com.demo.deskbuddy.error.InvalidRequestException;
 import com.demo.deskbuddy.repository.DistractionHistoryRepository;
 import com.demo.deskbuddy.repository.SessionHistoryRepository;
 import com.demo.deskbuddy.repository.StudentRepository;
@@ -44,7 +45,7 @@ public class DistractionHistoryService {
                     if(optDistractionHistory.isEmpty()){
                         distractionHistory.setDistractions(list.size() + 1);
                     } else {
-                        throw new RuntimeException("Previous Distraction is not Finished yet");
+                        throw new InvalidRequestException("Previous Distraction is not Finished yet");
                     }
 
                 }

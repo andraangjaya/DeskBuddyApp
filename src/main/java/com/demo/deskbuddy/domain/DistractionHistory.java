@@ -29,7 +29,6 @@ public class DistractionHistory {
     @Column(name = "distraction_end")
     private Instant distractionEnd;
 
-    @NotNull
     @Column(name = "time_elapsed")
     private Long timeElapsed;
 

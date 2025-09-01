@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS public.distraction_history
     distractions integer NOT NULL,
     distraction_start timestamp with time zone,
     distraction_end timestamp with time zone,
-    time_elapsed bigint NOT NULL,
+    time_elapsed bigint,
     CONSTRAINT distraction_history_pkey PRIMARY KEY (id),
     CONSTRAINT fk_session_history FOREIGN KEY (session_history_id)
     REFERENCES public.session_history (id) MATCH SIMPLE

@@ -8,11 +8,13 @@ import com.demo.deskbuddy.dto.SessionHistoryNikDTO;
 import com.demo.deskbuddy.error.InvalidRequestException;
 import com.demo.deskbuddy.repository.SessionHistoryRepository;
 import com.demo.deskbuddy.repository.StudentRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalField;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,7 +36,6 @@ public class SessionHistoryService {
             sessionHistory.setSession(sessionHistoryDTO.getSession());
             sessionHistory.setTimeStarted(sessionHistoryDTO.getTimeStarted());
             sessionHistory.setTimeFinished(sessionHistoryDTO.getTimeFinished());
-            sessionHistory.setTotalDistraction(sessionHistoryDTO.getTotalDistraction());
             sessionHistory.setStatus(sessionHistoryDTO.getStatus());
             sessionHistory = sessionHistoryRepository.save(sessionHistory);
             return sessionHistory;
@@ -92,4 +93,12 @@ public class SessionHistoryService {
         }
     }
 
+    @Scheduled(cron = "0 0 0 * * *")
+    public void makeSessionHistoryBecomeIncomplete(){
+        List<SessionHistory> sessionHistoryList = sessionHistoryRepository.findAllByStatusAndTimeFinishedIsNull(Status.IN_PROGRESS);
+        for(SessionHistory sessionHistory : sessionHistoryList){
+            sessionHistory.setStatus(Status.INCOMPLETE);
+        }
+        sessionHistoryRepository.saveAll(sessionHistoryList);
+    }
 }

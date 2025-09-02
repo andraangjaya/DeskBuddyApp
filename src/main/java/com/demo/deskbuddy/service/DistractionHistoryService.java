@@ -50,7 +50,6 @@ public class DistractionHistoryService {
 
                 }
 
-
                 distractionHistory.setDistractionStart(Instant.now());
                 distractionHistory = distractionHistoryRepository.save(distractionHistory);
                 return distractionHistory;

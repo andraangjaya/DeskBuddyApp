@@ -23,7 +23,7 @@ public class SessionHistory {
     private Integer session;
 
     @NotNull
-    @Column(name = "session_date",  nullable = false)
+    @Column(name = "session_date", nullable = false)
     private Instant sessionDate;
 
     @Column(name = "time_started", nullable = false)
@@ -31,9 +31,6 @@ public class SessionHistory {
 
     @Column(name = "time_finished")
     private Instant timeFinished;
-
-    @Column(name = "total_distraction")
-    private Integer totalDistraction;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -87,13 +84,6 @@ public class SessionHistory {
         this.timeFinished = timeFinished;
     }
 
-    public Integer getTotalDistraction() {
-        return totalDistraction;
-    }
-
-    public void setTotalDistraction(Integer totalDistraction) {
-        this.totalDistraction = totalDistraction;
-    }
 
     public Status getStatus() {
         return status;

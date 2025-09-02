@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS public.session_history
     CONSTRAINT fk_student_id FOREIGN KEY (student_id)
     REFERENCES public.student (id),
     CONSTRAINT unique_studentSession UNIQUE (session_date, student_id, session ),
-    CONSTRAINT session_history_status_check CHECK (status::text = ANY (ARRAY['DONE'::character varying, 'IN_PROGRESS'::character varying]::text[]))
+    CONSTRAINT session_history_status_check CHECK (status::text = ANY (ARRAY['DONE'::character varying, 'IN_PROGRESS'::character varying, 'INCOMPLETE'::character varying]::text[]))
     );
 
 -- Table: public.distraction_history

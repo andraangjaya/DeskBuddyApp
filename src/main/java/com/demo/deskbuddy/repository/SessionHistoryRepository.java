@@ -1,6 +1,7 @@
 package com.demo.deskbuddy.repository;
 
 import com.demo.deskbuddy.domain.SessionHistory;
+import com.demo.deskbuddy.domain.Status;
 import com.demo.deskbuddy.dto.SessionHistoryDTO;
 import com.demo.deskbuddy.dto.SessionHistoryViewDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,7 @@ public interface SessionHistoryRepository extends JpaRepository<SessionHistory, 
     Optional<SessionHistory> findByStudentIdAndSession(Long student_id, Integer session);
     Optional<SessionHistory> findByStudentIdAndSessionAndSessionDateBetween(Long student_id, Integer session, Instant start, Instant end);
     Optional<SessionHistory> findByStudentIdAndTimeStartedIsNotNullAndTimeFinishedIsNull(Long student_id);
+    List<SessionHistory> findAllByStatusAndTimeFinishedIsNull(Status status);
 
     @Query(value = """
     select

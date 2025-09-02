@@ -2,7 +2,8 @@ package com.demo.deskbuddy.domain;
 
 public enum Status {
     DONE("Done"),
-    IN_PROGRESS("In Progress"),;
+    IN_PROGRESS("In Progress"),
+    INCOMPLETE("Incomplete");
 
     private final String label;
 
